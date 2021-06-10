@@ -7,17 +7,19 @@
         <div class="form-sum-block">
           <input
             class="form-sum_input input"
-            type="text"
+            type="number"
+            min="50000"
+            max="1000000"
+            step="1000"
             placeholder="Сумма Кредита"
             name="credit_amount"
+            required
           />
         </div>
         <fieldset class="form-sum_sel">
           <legend align="left">Срок кредита</legend>
-          <select class="select input" name="credit_period">
-            <option class="select" value="no" selected>
-              Выберите из списка
-            </option>
+          <select class="select input" name="credit_period" required>
+            <option class="select" value="">Выберите из списка</option>
             <option value="1 year">на 1 год</option>
             <option value="2 years">на 2 года</option>
             <option value="3 years">на 3 года</option>
@@ -29,8 +31,8 @@
       <div class="form-target">
         <fieldset class="form-target_sel">
           <legend align="left">Цель кредита</legend>
-          <select class="select input" name="target_credit">
-            <option value="no" selected>Выберите из списка</option>
+          <select class="select input" name="target_credit" required>
+            <option value="" selected>Выберите из списка</option>
             <option value="healing">На лечение</option>
             <option value="construction">На строительство</option>
             <option value="study">На обучение</option>
@@ -41,21 +43,26 @@
       <div class="form-password">
         <input
           class="form-password_num input"
-          type="text"
+          type="number"
+          min="1"
           placeholder="Серия и номер паспорта"
           name="passpord_number"
+          required
         />
         <input
           class="form-password_data input"
-          type="text"
-          placeholder="Дата и выдачи"
+          type="date"
+          placeholder="Дата выдачи"
           name="date_issue_passport"
+          required
         />
         <input
           class="form-password_code input"
-          type="text"
+          type="number"
+          min="1"
           placeholder="Код подразделения"
           name="code_passport"
+          required
         />
       </div>
       <div class="form-production">
@@ -64,12 +71,14 @@
           type="text"
           placeholder="Орган выдачи"
           name="department_passport"
+          required
         />
         <input
           class="form-production_place input"
           type="text"
-          placeholder="Место рождение"
+          placeholder="Место рождения"
           name="date_of_birth"
+          required
         />
       </div>
       <div class="form-registration">
@@ -78,12 +87,14 @@
           type="text"
           placeholder="Адрес регистрации"
           name="adress_registration"
+          required
         />
         <input
           class="form-registration_date input"
-          type="text"
+          type="date"
           placeholder="Дата регистрации"
           name="date_registration_data"
+          required
         />
       </div>
       <div v-if="!registration" class="form-button">
@@ -129,7 +140,7 @@
         />
       </div>
       <div class="form-checkbox">
-        <input class="form-checkbox_input" type="checkbox" />
+        <input class="form-checkbox_input" type="checkbox" v-model="checkbox" />
         <label class="" for="">
           <span>Адрес проживания совпадает с адресом регистрации</span>
         </label>
@@ -137,13 +148,19 @@
       <div class="form-living">
         <input
           class="form-living_input input"
+          :class="getClass()"
+          :disabled="checkbox"
           type="text"
           placeholder="Адрес проживания"
           name="adress_living"
         />
       </div>
       <div v-if="!living" class="form-button">
-        <button @click.prevent="living = true" class="form-button_btn button">
+        <button
+          @click.prevent="living = true"
+          class="form-button_btn button"
+          :disabled="checkbox"
+        >
           Показать поля адреса
         </button>
       </div>
@@ -158,34 +175,42 @@
           type="text"
           placeholder="Страна"
           name="country"
+          :class="getClass()"
+          :disabled="checkbox"
         />
         <input
           class="form-additionally_region input"
           type="text"
           placeholder="Регион/Область"
           name="region"
+          :class="getClass()"
+          :disabled="checkbox"
         />
         <input
           class="form-additionally_town input"
           type="text"
           placeholder="Город"
           name="town"
+          :class="getClass()"
+          :disabled="checkbox"
         />
         <input
           class="form-additionally_street input"
           type="text"
           placeholder="Улица"
           name="street"
+          :class="getClass()"
+          :disabled="checkbox"
         />
       </div>
 
       <div class="form-method">
         <fieldset class="form-method_sel">
           <legend align="left">
-            Условие проживание по фактическому адресу
+            Условие проживания по фактическому адресу
           </legend>
-          <select class="select input" name="accommodation_conditions">
-            <option selected value="no">Выберите из списка</option>
+          <select class="select input" name="accommodation_conditions" required>
+            <option selected value="">Выберите из списка</option>
             <option value="owner">Вледение</option>
             <option value="rent">Аренда</option>
             <option value="with parents">Проживаю с родителями</option>
@@ -195,8 +220,8 @@
       <div class="form-location">
         <fieldset class="form-location_region">
           <legend align="left">Регион для оформления договора</legend>
-          <select class="select input" name="registration_region">
-            <option selected value="no">Выберите из списка</option>
+          <select class="select input" name="registration_region" required>
+            <option selected value="">Выберите из списка</option>
             <option value="Sverdlovsk">Свердловская область</option>
             <option value="Tatarstan">Татарстан</option>
             <option value="Rostov">Ростовская область</option>
@@ -205,8 +230,8 @@
         </fieldset>
         <fieldset class="form-location_town">
           <legend align="left">Город для оформления договора</legend>
-          <select class="select input" name="registration_town">
-            <option selected value="no">Выберите из списка</option>
+          <select class="select input" name="registration_town" required>
+            <option selected value="">Выберите из списка</option>
             <option value="Ekaterinburg">Екатеринбург</option>
             <option value="Kazan">Казань</option>
             <option value="Rostov">Ростов</option>
@@ -219,9 +244,9 @@
           </select>
         </fieldset>
         <fieldset class="form-location_office">
-          <legend align="left">Офис для оформление договора</legend>
-          <select class="select input" name="registration_office">
-            <option selected value="no">Выберите из списка</option>
+          <legend align="left">Офис для оформления договора</legend>
+          <select class="select input" name="registration_office" required>
+            <option selected value="">Выберите из списка</option>
             <option value="Uralmashevsky">
               Уралмашевский (г.Екатеринбург)
             </option>
@@ -241,7 +266,12 @@
       </div>
       <div class="form-submit">
         <input class="form-submit-next btn" type="submit" value="Далее" />
-        <input class="form-submit-reset btn" type="reset" value="Отмена" />
+        <input
+          class="form-submit-reset btn"
+          type="reset"
+          @click="resetData"
+          value="Отмена"
+        />
       </div>
     </form>
   </div>
@@ -257,7 +287,21 @@ export default {
     return {
       registration: false,
       living: false,
+      checkbox: false,
     };
+  },
+  methods: {
+    getClass() {
+      return {
+        hidden: this.checkbox,
+        "fa-checkbox-blank-outline": !this.checkbox,
+      };
+    },
+    resetData() {
+      (this.registration = false),
+        (this.living = false),
+        (this.checkbox = false);
+    },
   },
 };
 </script>
@@ -313,7 +357,7 @@ fieldset {
   border: none;
   color: #8e8e8e;
   padding-top: 7px;
-  outline:none
+  outline: none;
 }
 .button {
   border: none;
@@ -329,6 +373,13 @@ fieldset {
   border-radius: 25px;
   padding: 15px 25px 15px 25px;
   cursor: pointer;
+}
+.btn:hover {
+  opacity: 0.8;
+  transform: scale(1.1);
+}
+.hidden {
+  background-color: #e0dede;
 }
 .form-sum,
 .form-submit,
