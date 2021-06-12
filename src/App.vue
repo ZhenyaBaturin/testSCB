@@ -7,9 +7,10 @@ import StepThree from "./components/StepThree.vue";
 
 export default {
   name: "App",
-  components: {
-    StepThree,
+  data: function () {
+    return {};
   },
+  components: { StepThree },
 };
 </script>
 

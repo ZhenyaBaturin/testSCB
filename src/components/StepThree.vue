@@ -146,15 +146,17 @@
         </label>
       </div>
       <div class="form-living">
-        <input
+        <!-- <input
           class="form-living_input input"
           :class="getClass()"
           :disabled="checkbox"
           type="text"
           placeholder="Адрес проживания"
           name="adress_living"
-        />
+        /> -->
+        <Sugg />.
       </div>
+
       <div v-if="!living" class="form-button">
         <button
           @click.prevent="living = true"
@@ -278,6 +280,9 @@
 </template>
 
 <script>
+import Sugg from "./Sugg.vue";
+// import VueDadata from './Dadata.vue'
+
 export default {
   name: "StepThree",
   props: {
@@ -288,8 +293,10 @@ export default {
       registration: false,
       living: false,
       checkbox: false,
+      token: "92d9480112e42f8b923c3ad8ea5af68c46222760",
     };
   },
+
   methods: {
     getClass() {
       return {
@@ -302,6 +309,10 @@ export default {
         (this.living = false),
         (this.checkbox = false);
     },
+  },
+  components: {
+    Sugg,
+    // VueDadata
   },
 };
 </script>
