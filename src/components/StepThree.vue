@@ -77,18 +77,19 @@
           class="form-production_place input"
           type="text"
           placeholder="Место рождения"
-          name="date_of_birth"
+          name="place_of_birth"
           required
         />
       </div>
       <div class="form-registration">
-        <input
+        <!-- <input
           class="form-registration_adress input"
           type="text"
           placeholder="Адрес регистрации"
           name="adress_registration"
           required
-        />
+        /> -->
+        <Sugg @arrayData="arrayRegis = $event" />.
         <input
           class="form-registration_date input"
           type="date"
@@ -119,24 +120,28 @@
           type="text"
           placeholder="Страна"
           name="country"
+          :value="getValueRegis('country')"
         />
         <input
           class="form-additionally_region input"
           type="text"
           placeholder="Регион/Область"
           name="region"
+          :value="getValueRegis('region')"
         />
         <input
           class="form-additionally_town input"
           type="text"
           placeholder="Город"
           name="town"
+          :value="getValueRegis('city')"
         />
         <input
           class="form-additionally_street input"
           type="text"
           placeholder="Улица"
           name="street"
+          :value="getValueRegis('street')"
         />
       </div>
       <div class="form-checkbox">
@@ -146,15 +151,7 @@
         </label>
       </div>
       <div class="form-living">
-        <!-- <input
-          class="form-living_input input"
-          :class="getClass()"
-          :disabled="checkbox"
-          type="text"
-          placeholder="Адрес проживания"
-          name="adress_living"
-        /> -->
-        <Sugg />.
+        <Sugg :checkbox="checkbox" @arrayData="arrayLiving = $event" />.
       </div>
 
       <div v-if="!living" class="form-button">
@@ -179,6 +176,7 @@
           name="country"
           :class="getClass()"
           :disabled="checkbox"
+          :value="getValueLiving('country')"
         />
         <input
           class="form-additionally_region input"
@@ -187,6 +185,7 @@
           name="region"
           :class="getClass()"
           :disabled="checkbox"
+          :value="getValueLiving('region')"
         />
         <input
           class="form-additionally_town input"
@@ -195,6 +194,7 @@
           name="town"
           :class="getClass()"
           :disabled="checkbox"
+          :value="getValueLiving('city')"
         />
         <input
           class="form-additionally_street input"
@@ -203,6 +203,7 @@
           name="street"
           :class="getClass()"
           :disabled="checkbox"
+          :value="getValueLiving('street')"
         />
       </div>
 
@@ -281,7 +282,6 @@
 
 <script>
 import Sugg from "./Sugg.vue";
-// import VueDadata from './Dadata.vue'
 
 export default {
   name: "StepThree",
@@ -293,7 +293,8 @@ export default {
       registration: false,
       living: false,
       checkbox: false,
-      token: "92d9480112e42f8b923c3ad8ea5af68c46222760",
+      arrayLiving: null,
+      arrayRegis: null,
     };
   },
 
@@ -309,10 +310,20 @@ export default {
         (this.living = false),
         (this.checkbox = false);
     },
+    getValueLiving(value) {
+      if (this.arrayLiving) {
+        return this.arrayLiving.data[value];
+      }
+    },
+    getValueRegis(value) {
+      if (this.arrayRegis) {
+        return this.arrayRegis.data[value];
+      }
+    },
   },
+
   components: {
     Sugg,
-    // VueDadata
   },
 };
 </script>
@@ -367,7 +378,7 @@ fieldset {
   width: 100%;
   border: none;
   color: #8e8e8e;
-  padding-top: 7px;
+  padding-top: 7px !important;
   outline: none;
 }
 .button {
@@ -450,6 +461,7 @@ fieldset {
 .form-living {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 .form-registration_adress {
   width: 67%;
